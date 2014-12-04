@@ -1,0 +1,64 @@
+*{
+    box-sizing: border-box;
+}
+
+html{
+    overflow-y: scroll;
+}
+
+body{
+    max-width: 60rem;
+    margin: auto;
+}
+
+#header, #content, #footer{
+    padding: 1rem;
+}
+
+#header:before, #content:before, #footer:before,
+#header:after, #content:after, #footer:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#header{
+    border-bottom: 1px solid #444;
+}
+
+.brand-info{
+    float: left;
+}
+
+.brand{
+    margin: 0;
+}
+
+.sub-brand{
+    font-style: italic;
+    font-size: 1.5rem;
+}
+
+.navigation,
+.language-navigation{
+    float: right;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.navigation li,
+.language-navigation li{
+    display: inline
+}
+
+#content{
+}
+
+#footer{
+    border-top: 1px solid #444;
+}
+
+.copyright{
+    float: left;
+}

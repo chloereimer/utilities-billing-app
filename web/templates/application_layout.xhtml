@@ -6,12 +6,13 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/normalize.css"/>
         <h:outputStylesheet name="./css/style.css"/>
         <title>Skyline Utilities — <ui:insert name="title">Charging You!</ui:insert></title>
     </h:head>
 
     <h:body>
-
+            
         <div id="header" class="header">
             <ui:insert name="header">
                 <ui:include src="/templates/header.xhtml" />
@@ -21,7 +22,7 @@
         <div id="content" class="content">
             <ui:insert name="content"></ui:insert>
         </div>
-        
+
         <div id="footer" class="footer">
             <ui:insert name="footer">
                 <ui:include src="/templates/footer.xhtml" />
