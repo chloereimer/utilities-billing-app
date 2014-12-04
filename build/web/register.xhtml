@@ -14,7 +14,26 @@
             </ui:define>
  
             <ui:define name="content">
-                Register page content...
+                <h:form id="registrationForm">
+                    <h:outputText value="Username" /><br/>
+                    <h:inputText id="username" value="#{authenticationBean.username}" ></h:inputText>
+                    <h:message for="username" ></h:message><br/><br/>
+                    <h:outputText value="Street Number" /><br/>
+                    <h:inputText id="streetNumber" value="#{authenticationBean.streetNumber}" ></h:inputText><br/><br/>
+                    <h:outputText value="Street Name" /><br/>
+                    <h:inputText id="streetName" value="#{authenticationBean.streetName}" ></h:inputText><br/><br/>
+                    <h:outputText value="Meter ID" /><br/>
+                    <h:inputText id="meterId" value="#{authenticationBean.meterId}" ></h:inputText><br/><br/>
+                    <h:outputText value="Password" /><br/>
+                    <h:inputText id="password" value="#{authenticationBean.password}"></h:inputText>
+                    <h:message for="password"></h:message><br/><br/>
+                    <h:outputText value="Privilege" /><br/>
+                    <h:inputText id="privilege" value="#{authenticationBean.privilege}"></h:inputText>
+                    <h:message for="privilege"></h:message><br/><br/>
+                    
+                    <h:commandButton action="#{authenticationBean.doRegistration}" value="Register"></h:commandButton>
+ 
+                </h:form>
             </ui:define>
  
     	</ui:composition>

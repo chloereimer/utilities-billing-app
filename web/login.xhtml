@@ -14,7 +14,22 @@
             </ui:define>
  
             <ui:define name="content">
-                Login page content...
+                <h:form id="loginForm">
+                    <h:outputText value="Username" />
+                    <h:inputText id="username" value="#{authenticationBean.username}" ></h:inputText>
+ 
+                    <h:message for="username" ></h:message>
+ 
+                    <h:outputText value="Password" />
+ 
+                     
+                    <h:inputText id="password" value="#{authenticationBean.password}"></h:inputText>
+ 
+                    <h:message for="password"></h:message>
+ 
+                    <h:commandButton action="#{authenticationBean.doLogin}" value="Login"></h:commandButton>
+ 
+                </h:form>
             </ui:define>
  
     	</ui:composition>

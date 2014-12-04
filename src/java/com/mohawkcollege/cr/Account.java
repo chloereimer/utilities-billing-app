@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -53,6 +55,9 @@ public class Account implements Serializable {
     @NotNull
     @Column(name = "PRIVILEGE")
     private int privilege;
+    @JoinColumn(name = "METER_ID", referencedColumnName = "ID")
+    @ManyToOne
+    private Meter meterId;
 
     public Account() {
     }
@@ -98,6 +103,14 @@ public class Account implements Serializable {
 
     public void setPrivilege(int privilege) {
         this.privilege = privilege;
+    }
+    
+    public Meter getMeterId(){
+        return meterId;
+    }
+    
+    public void setMeterId(Meter meterId) {
+        this.meterId = meterId;
     }
 
     @Override
