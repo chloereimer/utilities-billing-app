@@ -32,13 +32,15 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">Bill</f:facet>
-                        <h:outputText value="#{reading.bill}"></h:outputText>
+                        <h:outputText value="#{reading.bill}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">Details</f:facet>
                         <h:form>
                             <h:commandLink action="show_bill" >
-                                <h:outputText value ="Details for #{reading.id}" />
+                                <h:outputText value ="Details" />
                                 <f:setPropertyActionListener target="#{main.readingId}" value="#{reading.id}"></f:setPropertyActionListener>
                             </h:commandLink>
                         </h:form>

@@ -119,13 +119,11 @@ public class Reading implements Serializable {
         return amountUsed;
     }
     
-    public float getBill(){
-        return ( ( this.getLowAmount() * 0.5F ) + ( this.getMediumAmount() * 0.55F ) + ( this.getHighAmount() * 0.6F ));
-    }
-    
     public float getLowAmount(){
         float totalAmount = this.getAmountUsed();
-        if( totalAmount < 5 ){
+        if( totalAmount == 0 ){
+            return 0;
+        } else if( totalAmount < 5 && totalAmount >= 0 ){
             return totalAmount;
         } else {
             return 5;
@@ -134,7 +132,9 @@ public class Reading implements Serializable {
     
     public float getMediumAmount(){
         float totalAmount = this.getAmountUsed();
-        if( totalAmount - 5 < 25 ){
+        if( totalAmount - 5 <= 0 ){
+            return 0;
+        } else if( totalAmount - 5 < 25 && totalAmount - 5 > 0 ){
             return totalAmount - 5;
         } else {
             return 25;
@@ -148,6 +148,31 @@ public class Reading implements Serializable {
         } else {
             return 0;
         }
+    }
+    
+    public float getLowAmountCost(){
+        return this.getLowAmount() * 0.50F;
+    }
+    
+    public float getMediumAmountCost(){
+        return this.getMediumAmount() * 0.55F;
+    }
+    
+    public float getHighAmountCost(){
+        return this.getHighAmount() * 0.6F;
+    }
+    
+    public float getBillSubtotal(){
+        float total = ( this.getLowAmountCost() + this.getMediumAmountCost() + this.getHighAmountCost() + 15.0F );
+        return total;
+    }
+    
+    public float getBill(){
+        return this.getBillSubtotal() * 1.13F;
+    }
+    
+    public float getTax(){
+        return this.getBillSubtotal() * 0.13F;
     }
 
     @Override

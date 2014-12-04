@@ -4,17 +4,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      >
+          
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
  
     	<ui:composition template="/templates/application_layout.xhtml">
             
             <ui:define name="title">
-                Account Details for TODO
+                Account Details for #{main.meter.id}
             </ui:define>
  
             <ui:define name="content">
-                Account details page content...
+                <h:dataTable value="#{main.readings}" var="reading">
+                    <h:column>
+                        <f:facet name="header">Date</f:facet>
+                        <h:outputText value="#{reading.readingDate}">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Reading</f:facet>
+                        <h:outputText value="#{reading.amount}"></h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Amount Used</f:facet>
+                        <h:outputText value="#{reading.amountUsed}"></h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Bill</f:facet>
+                        <h:outputText value="#{reading.bill}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Details</f:facet>
+                        <h:form>
+                            <h:commandLink action="show_bill" >
+                                <h:outputText value ="Details" />
+                                <f:setPropertyActionListener target="#{main.readingId}" value="#{reading.id}"></f:setPropertyActionListener>
+                            </h:commandLink>
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
             </ui:define>
  
     	</ui:composition>
