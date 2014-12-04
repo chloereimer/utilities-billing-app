@@ -11,6 +11,14 @@ body{
     margin: auto;
 }
 
+table{
+	width: 100%;
+}
+
+th{
+	text-align: left;
+}
+
 #header, #content, #footer{
     padding: 1rem;
 }

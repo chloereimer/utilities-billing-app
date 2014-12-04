@@ -99,6 +99,7 @@ public class Reading implements Serializable {
     public void setMeterId(Meter meterId) {
         this.meterId = meterId;
     }
+   
 
     @Override
     public int hashCode() {
