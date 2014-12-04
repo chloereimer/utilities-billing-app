@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+          
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+ 
+    	<ui:composition template="/templates/application_layout.xhtml">
+            
+            <ui:define name="title">
+                Meter List
+            </ui:define>
+ 
+            <ui:define name="content">
+                <h:dataTable value="#{main.meters}" var="meter">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value ="#{meter.id}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Address</f:facet>
+                        <h:outputText value ="#{meter.streetNumber} #{meter.streetName}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Details</f:facet>
+                        <h:form>
+                            <h:commandLink action="show_account" >
+                                <h:outputText value ="#{meter.id}" />
+                                <f:setPropertyActionListener target="#{main.meterId}" value="#{meter.id}"></f:setPropertyActionListener>
+                            </h:commandLink>
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
+            </ui:define>
+ 
+    	</ui:composition>
+ 
+    </h:body>
+ 
+</html>

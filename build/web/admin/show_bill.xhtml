@@ -4,17 +4,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      >
+          
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
  
     	<ui:composition template="/templates/application_layout.xhtml">
             
             <ui:define name="title">
-                Bill Details for TODO
+                Bill Details for <h:outputText value="#{main.reading.readingDate}" ><f:convertDateTime pattern="yyyy/MM/dd" /></h:outputText> Reading of Meter #{main.meter.id}
             </ui:define>
  
             <ui:define name="content">
-                Bill details page content...
+                // Total amount used, low, med, high, then average L/day
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Total amount used in m<sup>3</sup>:</th>
+                            <td>#{main.reading.amountUsed}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </ui:define>
  
     	</ui:composition>

@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Reading.findAll", query = "SELECT r FROM Reading r"),
     @NamedQuery(name = "Reading.findById", query = "SELECT r FROM Reading r WHERE r.id = :id"),
-    @NamedQuery(name = "Reading.findByReadingDate", query = "SELECT r FROM Reading r WHERE r.readingDate = :readingDate"),
+    @NamedQuery(name = "Reading.findByReadingDateAndMeterId", query = "SELECT r FROM Reading r WHERE r.readingDate = :readingDate AND r.meterId = :meterId"),
     @NamedQuery(name = "Reading.findByAmount", query = "SELECT r FROM Reading r WHERE r.amount = :amount")})
 public class Reading implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -54,6 +55,8 @@ public class Reading implements Serializable {
     @JoinColumn(name = "METER_ID", referencedColumnName = "ID")
     @ManyToOne
     private Meter meterId;
+    @Transient
+    private Reading previousReading;
 
     public Reading() {
     }
@@ -99,7 +102,53 @@ public class Reading implements Serializable {
     public void setMeterId(Meter meterId) {
         this.meterId = meterId;
     }
-   
+    
+    public void setPreviousReading(Reading previousReading){
+        this.previousReading = previousReading;
+    }
+    
+    public Reading getPreviousReading(){
+        return previousReading;
+    }
+    
+    public float getAmountUsed(){
+        float amountUsed = 0.0F;
+        if( previousReading != null ){
+            amountUsed = (float) ((amount - previousReading.amount) / 50 );
+        }
+        return amountUsed;
+    }
+    
+    public float getBill(){
+        return ( ( this.getLowAmount() * 0.5F ) + ( this.getMediumAmount() * 0.55F ) + ( this.getHighAmount() * 0.6F ));
+    }
+    
+    public float getLowAmount(){
+        float totalAmount = this.getAmountUsed();
+        if( totalAmount < 5 ){
+            return totalAmount;
+        } else {
+            return 5;
+        }
+    }
+    
+    public float getMediumAmount(){
+        float totalAmount = this.getAmountUsed();
+        if( totalAmount - 5 < 25 ){
+            return totalAmount - 5;
+        } else {
+            return 25;
+        }
+    }
+    
+    public float getHighAmount(){
+        float totalAmount = this.getAmountUsed();
+        if( totalAmount - 30 > 0 ){
+            return totalAmount - 30;
+        } else {
+            return 0;
+        }
+    }
 
     @Override
     public int hashCode() {
