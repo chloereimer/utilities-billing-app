@@ -150,6 +150,8 @@ public class Reading implements Serializable {
         }
     }
     
+    // todo: relate the magic numbers below to the database (fees table)
+    
     public float getLowAmountCost(){
         return this.getLowAmount() * 0.50F;
     }
