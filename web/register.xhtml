@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    <h:body>
+ 
+    	<ui:composition template="/templates/application_layout.xhtml">
+            
+            <ui:define name="title">
+                Register
+            </ui:define>
+ 
+            <ui:define name="content">
+                <h:form id="registrationForm">
+                    <h:outputText value="Username" /><br/>
+                    <h:inputText id="username" value="#{authenticationBean.username}" ></h:inputText>
+                    <h:message for="username" ></h:message><br/><br/>
+                    <h:outputText value="Street Number" /><br/>
+                    <h:inputText id="streetNumber" value="#{authenticationBean.streetNumber}" ></h:inputText><br/><br/>
+                    <h:outputText value="Street Name" /><br/>
+                    <h:inputText id="streetName" value="#{authenticationBean.streetName}" ></h:inputText><br/><br/>
+                    <h:outputText value="Meter ID" /><br/>
+                    <h:inputText id="meterId" value="#{authenticationBean.meterId}" ></h:inputText><br/><br/>
+                    <h:outputText value="Password" /><br/>
+                    <h:inputText id="password" value="#{authenticationBean.password}"></h:inputText>
+                    <h:message for="password"></h:message><br/><br/>
+                    <h:outputText value="Privilege" /><br/>
+                    <h:inputText id="privilege" value="#{authenticationBean.privilege}"></h:inputText>
+                    <h:message for="privilege"></h:message><br/><br/>
+                    
+                    <h:commandButton action="#{authenticationBean.doRegistration}" value="Register"></h:commandButton>
+ 
+                </h:form>
+            </ui:define>
+ 
+    	</ui:composition>
+ 
+    </h:body>
+ 
+</html>

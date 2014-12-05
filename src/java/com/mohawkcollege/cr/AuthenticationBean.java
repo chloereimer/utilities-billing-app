@@ -13,8 +13,14 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sun.misc.BASE64Encoder;
 
 /**
@@ -38,6 +44,12 @@ public class AuthenticationBean {
 
     public String getUsername() {
         return username;
+    }
+    
+    public String getUsernameFromSession() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        return session.getAttribute("user").toString();
     }
 
     public void setUsername(String username) {
@@ -100,11 +112,11 @@ public class AuthenticationBean {
             Logger.getLogger(AuthenticationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Meter meter = (Meter) (em.createNamedQuery("Meter.findById").setParameter( "id", "Q34825" ).getSingleResult());
+        Meter meter = (Meter) (em.createNamedQuery("Meter.findById").setParameter( "id", meterId ).getSingleResult());
         Account account = new Account();
-        account.setUsername("SomeUser");
+        account.setUsername(username);
         account.setPassword(hash);
-        account.setPrivilege(1);
+        account.setPrivilege(privilege);
         account.setMeterId(meter);
         
         boolean committed = false;
@@ -114,9 +126,73 @@ public class AuthenticationBean {
             utx.commit();
             committed = true;
         } catch( Exception e ){
+            return "login";
         }
         
-        return "admin/index?faces-redirect=true";
+        if( privilege >= 1 ){
+            return "admin/index?faces-redirect=true";
+        } else {
+            return "user/index?faces-redirect=true";
+        }
+    }
+    
+    public String doLogin(){
+        
+        Account account = null;
+        
+        try{
+            account = (Account) (em.createNamedQuery("Account.findByUsername").setParameter( "username", username ).getSingleResult());
+            this.setUsername( account.getUsername() );
+            this.setPrivilege( account.getPrivilege() );
+            this.setMeterId( account.getMeterId().getId() );
+        } catch (Exception e){
+            return "login";
+        }
+        
+        if (account != null){
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+            session.setAttribute("user", username);
+            session.setAttribute("privilege", privilege);
+            session.setAttribute("meterId", meterId);
+        } else {
+            return "login";
+        }
+        
+        if( privilege >= 1 ){
+            return "admin/index?faces-redirect=true";
+        } else {
+            return "user/index?faces-redirect=true";
+        }
+        
+    }
+    
+    public String doLogout(){
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        session.invalidate();
+        return "login";
+    }
+    
+    public boolean getIsLoggedIn(){
+        
+        boolean isLoggedIn = false;
+        
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        
+        if( session.getAttribute("user") != null && session.getAttribute("privilege") != null ){
+            isLoggedIn = true;
+        } else {
+            isLoggedIn = false;
+        }
+        
+        return isLoggedIn;
+        
+    }
+    
+    public boolean getIsNotLoggedIn(){
+        return !this.getIsLoggedIn();
     }
 
     public void persist(Object object) {

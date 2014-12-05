@@ -14,8 +14,14 @@
             </div>
             
             <ul class="navigation">
-                <li><h:link value="Login" outcome="/login" /></li>
-                <li><h:link value="Register" outcome="/register" /></li>
+                <li><h:outputText rendered="#{authenticationBean.isLoggedIn}" value="Hi there, #{authenticationBean.usernameFromSession}!"/></li>
+                <li>
+                    <h:form rendered="#{authenticationBean.isLoggedIn}">
+                        <h:commandLink action="#{authenticationBean.doLogout}" value="Logout" />
+                    </h:form>
+                </li>
+                <li><h:link value="Login" outcome="/login" rendered="#{authenticationBean.isNotLoggedIn}"/></li>
+                <li><h:link value="Register" outcome="/register" rendered="#{authenticationBean.isNotLoggedIn}"/></li>
                 <li><h:link value="Contact Us" outcome="/contact" /></li>
             </ul>
 

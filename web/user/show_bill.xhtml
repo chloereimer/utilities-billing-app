@@ -11,7 +11,7 @@
     	<ui:composition template="/templates/application_layout.xhtml">
             
             <ui:define name="title">
-                Bill Details for <h:outputText value="#{main.reading.readingDate}" ><f:convertDateTime pattern="yyyy/MM/dd" /></h:outputText> Reading of Meter #{main.meter.id}
+                Bill Details for <h:outputText value="#{main.readingFromSession.readingDate}" ><f:convertDateTime pattern="yyyy/MM/dd" /></h:outputText> Reading of Meter #{main.meterFromSession.id}
             </ui:define>
  
             <ui:define name="content">
@@ -20,19 +20,19 @@
                     <tbody>
                         <tr>
                             <th>Total amount used in m<sup>3</sup>:</th>
-                            <td>#{main.reading.amountUsed}</td>
+                            <td>#{main.readingFromSession.amountUsed}</td>
                         </tr>
                         <tr>
                             <th>Low amount used in m<sup>3</sup>:</th>
-                            <td>#{main.reading.lowAmount}</td>
+                            <td>#{main.readingFromSession.lowAmount}</td>
                         </tr>
                         <tr>
                             <th>Medium amount used in m<sup>3</sup>:</th>
-                            <td>#{main.reading.mediumAmount}</td>
+                            <td>#{main.readingFromSession.mediumAmount}</td>
                         </tr>
                         <tr>
                             <th>High amount used in m<sup>3</sup>:</th>
-                            <td>#{main.reading.highAmount}</td>
+                            <td>#{main.readingFromSession.highAmount}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -49,19 +49,19 @@
                         <tr>
                             <td>Cost for Low Amount</td>
                             <td>$0.50</td>
-                            <td><h:outputText value="#{main.reading.lowAmountCost}">                            <f:convertNumber type="currency" currencySymbol="$" />
+                            <td><h:outputText value="#{main.readingFromSession.lowAmountCost}">                            <f:convertNumber type="currency" currencySymbol="$" />
                                 </h:outputText></td>
                         </tr>
                         <tr>
                             <td>Cost for Medium Amount</td>
                             <td>$0.55</td>
-                            <td><h:outputText value="#{main.reading.mediumAmountCost}">                            <f:convertNumber type="currency" currencySymbol="$" />
+                            <td><h:outputText value="#{main.readingFromSession.mediumAmountCost}">                            <f:convertNumber type="currency" currencySymbol="$" />
                                 </h:outputText></td>
                         </tr>
                         <tr>
                             <td>Cost for High Amount</td>
                             <td>$0.60</td>
-                            <td><h:outputText value="#{main.reading.highAmountCost}">                            <f:convertNumber type="currency" currencySymbol="$" />
+                            <td><h:outputText value="#{main.readingFromSession.highAmountCost}">                            <f:convertNumber type="currency" currencySymbol="$" />
                                 </h:outputText></td>
                         </tr>
                         <tr>
@@ -72,19 +72,19 @@
                         <tr>
                             <td>Subtotal</td>
                             <td></td>
-                            <td><h:outputText value="#{main.reading.billSubtotal}">                            <f:convertNumber type="currency" currencySymbol="$" />
+                            <td><h:outputText value="#{main.readingFromSession.billSubtotal}">                            <f:convertNumber type="currency" currencySymbol="$" />
                                 </h:outputText></td>
                         </tr>
                         <tr>
                             <td>Tax</td>
                             <td></td>
-                            <td><h:outputText value="#{main.reading.tax}">                            <f:convertNumber type="currency" currencySymbol="$" />
+                            <td><h:outputText value="#{main.readingFromSession.tax}">                            <f:convertNumber type="currency" currencySymbol="$" />
 </h:outputText></td>
                         </tr>
                         <tr>
                             <td>Total</td>
                             <td></td>
-                            <td><h:outputText value="#{main.reading.bill}">                            <f:convertNumber type="currency" currencySymbol="$" />
+                            <td><h:outputText value="#{main.readingFromSession.bill}">                            <f:convertNumber type="currency" currencySymbol="$" />
                                 </h:outputText></td>
                         </tr>
                     </tbody>

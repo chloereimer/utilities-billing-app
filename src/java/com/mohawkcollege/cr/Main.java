@@ -15,8 +15,10 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -48,6 +50,13 @@ public class Main {
         return meter;
     }
     
+    public Meter getMeterFromSession(){
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Meter meter = (Meter) (em.createNamedQuery("Meter.findById").setParameter( "id", (String) session.getAttribute("meterId") ).getSingleResult());
+        return meter;
+    }
+    
     public void setMeterId(String meter_id){
         this.meter_id = meter_id;
     }
@@ -70,12 +79,50 @@ public class Main {
         return reading;
     }
     
+    public Reading getReadingFromSession(){
+        
+        Reading reading = (Reading) (em.createNamedQuery("Reading.findById").setParameter( "id", reading_id ).getSingleResult());
+        
+        Date referenceDate = reading.getReadingDate();
+        Calendar c = Calendar.getInstance(); 
+        c.setTime(referenceDate); 
+        c.add(Calendar.MONTH, -1);
+        Date previousDate = c.getTime();
+        
+        Meter meter = this.getMeterFromSession();
+        
+        Reading previousReading = (Reading) (em.createNamedQuery("Reading.findByReadingDateAndMeterId").setParameter( "readingDate", previousDate ).setParameter("meterId", meter ).getSingleResult());
+        reading.setPreviousReading( previousReading );
+        
+        return reading;
+    }
+    
     public void setReadingId(Integer reading_id){
         this.reading_id = reading_id;
     }
     
     public Collection<Reading> getReadings(){
         Meter meter = this.getMeter();
+        Collection<Reading> readings = meter.getReadingCollection();
+        
+        Reading previousReading = null;
+        for (Reading reading : readings) {
+            
+            if( previousReading != null ){
+                reading.setPreviousReading( previousReading );
+            }
+            
+            previousReading = reading;
+            
+        }
+        
+        return readings;
+    }
+    
+    public Collection<Reading> getReadingsFromSession(){
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Meter meter = (Meter) (em.createNamedQuery("Meter.findById").setParameter( "id", (String) session.getAttribute("meterId") ).getSingleResult());
         Collection<Reading> readings = meter.getReadingCollection();
         
         Reading previousReading = null;

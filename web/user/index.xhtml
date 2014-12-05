@@ -11,11 +11,11 @@
     	<ui:composition template="/templates/application_layout.xhtml">
             
             <ui:define name="title">
-                Account Details for #{main.meter.id}
+                Account Details for #{main.meterFromSession.id}
             </ui:define>
  
             <ui:define name="content">
-                <h:dataTable value="#{main.readings}" var="reading">
+                <h:dataTable value="#{main.readingsFromSession}" var="reading">
                     <h:column>
                         <f:facet name="header">Date</f:facet>
                         <h:outputText value="#{reading.readingDate}">
